@@ -6,15 +6,24 @@ from config import Config
 
 # Настройка Telegram логгера
 token = os.getenv("TG_TOKEN")
-chat_id = os.getenv("CHAT_ID_1")
+chat_id_1 = os.getenv("CHAT_ID_1")
+chat_id_4 = os.getenv("CHAT_ID_4")
 
-if token and chat_id:
-    params_chat = {
+if token:
+    params_chat_1 = {
         "token": token,
-        "chat_id": chat_id,
+        "chat_id": chat_id_1,
     }
-    tg_handler = NotificationHandler("telegram", defaults=params_chat)
-    logger.add(tg_handler, level="DEBUG")
+    tg_handler_1 = NotificationHandler("telegram", defaults=params_chat_1)
+    logger.add(tg_handler_1, level="DEBUG")
+
+    params_chat_4 = {
+        "token": token,
+        "chat_id": chat_id_4,
+    }
+    tg_handler_4 = NotificationHandler("telegram", defaults=params_chat_4)
+    logger.add(tg_handler_4, level="INFO")
+
 
 # Настройка файлового логгера
 if Config.LOG_TO_FILE:
