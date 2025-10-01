@@ -1,0 +1,18 @@
+services:
+  enroll-cn-enrolling:
+    build: .
+    image: enroll-cn-enrolling:latest
+    container_name: enroll-cn-enrolling
+    restart: "no"
+    working_dir: /app
+    environment:
+      - PYTHONUNBUFFERED=1  # Отключает буферизацию Python
+      - TZ=Europe/Moscow    # Устанавливаем часовой пояс
+    volumes:
+      - /opt/secrets:/secrets:ro
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        compress: "true"
