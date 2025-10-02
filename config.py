@@ -16,8 +16,8 @@ class Config:
     RETRY_DELAY = 60  # секунд
 
     # Настройки подписок
-    SUBSCRIPTION_DELAY_MIN = 2  # секунд
-    SUBSCRIPTION_DELAY_MAX = 5  # секунд
+    SUBSCRIPTION_DELAY_MIN = 115  # секунд
+    SUBSCRIPTION_DELAY_MAX = 125  # секунд
 
     # Логика ошибок
     ERROR_THRESHOLD = 0.9  # 90% ошибок - критический уровень
