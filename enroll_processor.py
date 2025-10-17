@@ -6,6 +6,7 @@ from datetime import datetime as dt
 import color_prints as p
 from config import Config
 from api_client import APIClient
+from functions import write_spread_sheet
 from logger import setup_logger
 
 logger = setup_logger()
@@ -16,6 +17,8 @@ class EnrollProcessor:
         self.f = functions_module
         self.api_client = APIClient(functions_module.api)
         self.last_run_date = None
+        self.users = self.f.api.get('user')['data']
+        self.acc_errors = []
 
     def should_run_today(self):
         """Проверяем, нужно ли запускать скрипт сегодня"""
@@ -146,6 +149,7 @@ class EnrollProcessor:
 
             # Анализ результатов и сохранение отчета
             self._save_report(report)
+            self.write_error_log(self.acc_errors)
             return self._analyze_results(success_count, error_count, total_count)
 
         except Exception as e:
@@ -191,6 +195,36 @@ class EnrollProcessor:
 
         self.last_run_date = dt.now().strftime("%Y-%m-%d")
         return True, f"Success: {success_count}/{total_count}"
+
+    def create_error_log_row(self, email_account, error_text):
+        """Создает строку журнала ошибок"""
+        if "identity does not exist" in error_text:
+            error_type = "identity does not exist"
+            info = f"identities: {email_account['identities']}"
+        for user in self.users:
+            if user['id'] == email_account['user_id']:
+                user_name = user['first_name'] + ' ' + user['last_name']
+                break
+        log_row = [
+            user_name,
+            email_account['email'],
+            email_account['id'],
+            error_type,
+            info,
+        ]
+        return log_row
+
+    def write_error_log(self, error_rows):
+        error_report = [['Close User', 'Account Email', 'Account ID', 'Error', 'Info']]
+        if error_rows:
+            error_report.extend(error_rows)
+        else:
+            error_report.append(['ошибок нет', '', '', '', ''])
+        self.f.write_spread_sheet(
+            spread=Config.SPREAD_NAME,
+            sheet='error_accts',
+            report=error_report
+        )
 
     def process_single_subscription(self, row, seqID_dict):
         """Обрабатывает одну подписку"""
@@ -257,6 +291,8 @@ class EnrollProcessor:
                 bulk_response = str(e)
                 total_leads = f"error\n{bulk_response}"
                 p.print_error(f"Ошибка подписки: {str(e)}")
+                log_row = self.create_error_log_row(emailacct, str(e))
+                self.acc_errors.append(log_row)
 
         date_time = dt.now().strftime("%m/%d/%Y, %H:%M:%S")
         return [
@@ -266,5 +302,5 @@ class EnrollProcessor:
             row['seq_name'],
             row['email'],
             total_leads,
-            bulk_response
+            bulk_response,
         ]
