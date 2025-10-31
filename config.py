@@ -21,7 +21,7 @@ class Config:
 
     # Логика ошибок
     ERROR_THRESHOLD = 0.9  # 90% ошибок - критический уровень
-    RESTART_ON_CRITICAL_ERROR = False  # Перезапуск при критической ошибке
+    RESTART_ON_CRITICAL_ERROR = True  # Перезапуск при критической ошибке
 
     # Логирование
     LOG_TO_FILE = True
