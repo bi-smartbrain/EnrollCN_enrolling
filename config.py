@@ -7,7 +7,7 @@ class Config:
     SHEET_PREFIX = "111_"
 
     # Расписание
-    SCHEDULE_TIME = time(13, 00)  # 13:00
+    SCHEDULE_TIME = time(13, 35)  # 13:35
     WORKING_DAYS = [0, 1, 2, 3, 4]  # Пн-Пт (0-пн, 6-вс)
 
     # Настройки API
