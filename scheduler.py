@@ -96,8 +96,8 @@ class Scheduler:
 
     def start_scheduler(self):
         """Запуск планировщика в отдельном потоке"""
-        p.print_success(f"Скрипт энроллинга запущен. Ожидание {Config.SCHEDULE_TIME} в рабочие дни...")
-        logger.info(f"🟢 Скрипт энроллинга запущен. Расписание: {Config.SCHEDULE_TIME} Пн-Пт")
+        p.print_success(f"Скрипт энроллинга запущен. Ожидание {Config.SCHEDULE_TIME}")
+        logger.info(f"🟢 Скрипт энроллинга запущен. Расписание: {Config.SCHEDULE_TIME}")
 
         # Запускаем проверку расписания в отдельном потоке
         scheduler_thread = threading.Thread(target=self.check_schedule, daemon=True)
