@@ -8,7 +8,7 @@ class Config:
 
     # Расписание
     SCHEDULE_TIME = time(13, 35)  # 13:35
-    WORKING_DAYS = [0, 1, 2, 3, 4]  # Пн-Пт (0-пн, 6-вс)
+    WORKING_DAYS = [0, 1, 2, 3, 4, 5, 6]  # Пн-Пт (0-пн, 6-вс)
 
     # Настройки API
     API_TIMEOUT = 30  # секунд
