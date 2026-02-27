@@ -7,7 +7,7 @@ class Config:
     SHEET_PREFIX = "111_"
 
     # Расписание
-    SCHEDULE_TIME = time(16, 5)  # 13:35
+    SCHEDULE_TIME = time(13, 0)  # время запуска
     WORKING_DAYS = [0, 1, 2, 3, 4, 5, 6]  # Пн-Пт (0-пн, 6-вс)
 
     # Настройки API
@@ -16,8 +16,8 @@ class Config:
     RETRY_DELAY = 60  # секунд
 
     # Настройки подписок
-    SUBSCRIPTION_DELAY_MIN = 15  # секунд
-    SUBSCRIPTION_DELAY_MAX = 25  # секунд
+    SUBSCRIPTION_DELAY_MIN = 15*5  # секунд
+    SUBSCRIPTION_DELAY_MAX = 25*5  # секунд
 
     # Логика ошибок
     ERROR_THRESHOLD = 0.9  # 90% ошибок - критический уровень
